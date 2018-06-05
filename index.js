@@ -4,6 +4,8 @@ const url = require("url");
 exports.handler = async (event, context) => {
     console.log(`REQUEST RECEIVED: \
         ${JSON.stringify(event)}`);
+    console.log(`Context RECEIVED: \
+        ${JSON.stringify(context)}`);
 
     let parsedUrl = url.parse(event.ResponseURL);
 
