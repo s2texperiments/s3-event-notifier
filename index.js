@@ -1,10 +1,13 @@
 const fetch = require("node-fetch");
+const url = require("url");
 
 exports.handler = async (event, context) => {
     console.log(`REQUEST RECEIVED: \
         ${JSON.stringify(event)}`);
 
-    await fetch(event.ResponseURL,
+    let parsedUrl = url.parse(event.ResponseURL);
+
+    await fetch(`https://${parsedUrl.hostname}${parsedUrl.path}`,
         {
             method: 'PUT',
             body: JSON.stringify({
