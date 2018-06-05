@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/s2texperiments/s3-event-notifier/issues"
   },
-  "homepage": "https://github.com/s2texperiments/s3-event-notifier#readme"
+  "homepage": "https://github.com/s2texperiments/s3-event-notifier#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "dotenv": "^5.0.1",
+    "mocha": "^5.2.0"
+  }
 }
