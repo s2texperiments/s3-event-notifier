@@ -12,5 +12,5 @@ exports.handler = async (event, context) => {
         {
             'SubArn': '<sub_arn>'
         });
-    context.done()
+    return "fin";
 };
