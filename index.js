@@ -24,7 +24,9 @@ exports.handler = async (event, context) => {
                     SubArn: 'some_arn'
                 }
             })
-        }
+        }.then(response => response.text())
+            .then(data => console.log(data)) // JSON from `response.json()` call
+            .catch(error => console.log("Err:" + error))
     );
 
 
