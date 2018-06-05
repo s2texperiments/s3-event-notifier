@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
         context,
         response.SUCCESS,
         {
-            'SubArn': '<sub_arn>'
+            SubArn: 'asdf'
         });
     return "fin";
 };
