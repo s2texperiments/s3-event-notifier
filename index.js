@@ -1,16 +1,6 @@
-const response = require('cfn-response');
-
-exports.handler = async (event, context) => {
-
-    console.log(`REQUEST RECEIVED: \
-        ${JSON.stringify(event)}`);
-
-    response.send(
-        event,
-        context,
-        response.SUCCESS,
-        {
-            SubArn: 'asdf'
-        });
-    return "fin";
+var response = require('cfn-response');
+exports.handler = function(event, context) {
+    var input = parseInt(event.ResourceProperties.Input);
+    var responseData = {Value: input * 5};
+    response.send(event, context, response.SUCCESS, responseData);
 };
