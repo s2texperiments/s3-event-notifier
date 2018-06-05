@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
         }
     });
 
-    await fetch(`event.ResponseURL`, {
+    await fetch(event.ResponseURL, {
             method: 'PUT',
             headers: {
                 'content-type': '',
