@@ -13,7 +13,8 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({
                 Status: "SUCCESS",
                 Reason: "See the details in CloudWatch Log Stream: " + context.logStreamName,
-                PhysicalResourceId: context.logStreamName,
+                //PhysicalResourceId: context.logStreamName,
+                PhysicalResourceId: 'maybe-this',
                 StackId: event.StackId,
                 RequestId: event.RequestId,
                 LogicalResourceId: event.LogicalResourceId,
