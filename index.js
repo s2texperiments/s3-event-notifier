@@ -9,8 +9,7 @@ exports.handler = async (event, context) => {
 
     let parsedUrl = url.parse(event.ResponseURL);
 
-    await fetch(`https://${parsedUrl.hostname}${parsedUrl.path}`,
-        {
+    await fetch(`https://${parsedUrl.hostname}${parsedUrl.path}`, {
             method: 'PUT',
             body: JSON.stringify({
                 Status: "SUCCESS",
@@ -24,10 +23,9 @@ exports.handler = async (event, context) => {
                     SubArn: 'some_arn'
                 }
             })
-        }.then(response => response.text())
-            .then(data => console.log(data)) // JSON from `response.json()` call
-            .catch(error => console.log("Err:" + error))
-    );
+        }).then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.log("Err:" + error));
 
 
     return "fin"
