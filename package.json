@@ -20,13 +20,13 @@
   },
   "homepage": "https://github.com/s2texperiments/s3-event-notifier#readme",
   "devDependencies": {
-    "chai": "^4.1.2",
-    "dotenv": "^5.0.1",
-    "mocha": "^5.2.0",
-    "proxyquire": "^2.0.1",
-    "sinon": "^5.1.0"
+    "chai": "4.1.2",
+    "dotenv": "5.0.1",
+    "mocha": "5.2.0",
+    "proxyquire": "2.0.1",
+    "sinon": "5.1.0"
   },
   "dependencies": {
-    "node-fetch": "^2.1.2"
+    "cf-fetch-response": "^1.0.0",
   }
 }
