@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const response = require("./cfFetchResponse");
+const response = require("./cfFetchResponse.js");
 
 exports.handler = async (event, context) => {
     console.log(`REQUEST RECEIVED: \
