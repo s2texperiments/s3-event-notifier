@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
 
     return response.sendSuccess(event,context, {
         data:{
-            SubArn: 'another_arn'
+            SubArn: 'does_it_work_arn'
         }
     });
 };
