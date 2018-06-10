@@ -15,5 +15,5 @@ exports.handler = async (event, context) => {
         } catch (e) {
             return sendFail(e);
         }
-    });
+    })();
 };
