@@ -9,10 +9,11 @@ exports.handler = async (event, context) => {
         return response.sendFail(event, context, e.message)
     };
 
-    try {
-        return (async () => require("./index_impl.js").doHandle(event, context))
-            .catch((e) => sendFail(e));
-    } catch (e) {
-        return sendFail(e);
-    }
+    return (async () => {
+        try {
+            return require("./index_impl.js").doHandle(event, context).catch((e) => sendFail(e));
+        } catch (e) {
+            return sendFail(e);
+        }
+    });
 };
