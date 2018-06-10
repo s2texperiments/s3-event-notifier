@@ -32,7 +32,7 @@ describe('s3-event-notifier', () => {
         failFake = fake.resolves("send fail");
         s3putBucketNotificationFake = fake.resolves({status: 'successful'});
 
-        underTest = proxyquire('../index.js', {
+        underTest = proxyquire('../index_impl.js', {
             'cf-fetch-response': {
                 sendSuccess: successFake,
                 sendFail: failFake
