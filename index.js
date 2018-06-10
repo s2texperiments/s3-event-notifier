@@ -6,7 +6,7 @@ exports.handler = async (event, context) => {
 
     let sendFail = (e) => {
         console.log(`ERROR: ${e}`);
-        return response.sendFail(event, context, e.message)
+        return response.sendFail(event, context, e)
     };
 
     return (async () => {
