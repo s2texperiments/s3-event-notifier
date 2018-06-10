@@ -48,7 +48,7 @@ exports.handler = async (event, context) => {
         let cfg = {
             Events: [s3Event],
             LambdaFunctionArn: eventLambdaArn,
-            Id: `${stackId}:s3EventNotifier:${s3Bucket}:${s3Event}:${eventLambdaArn}`,
+            Id: `${stackId}:s3EventNotifier`//:${s3Bucket}:${s3Event}:${eventLambdaArn}`,
         };
         return Object.assign(collectFilterProperty(s3Prefix, s3Suffix), cfg);
     };

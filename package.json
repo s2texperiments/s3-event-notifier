@@ -28,6 +28,6 @@
     "sinon": "5.1.0"
   },
   "dependencies": {
-    "cf-fetch-response": "^1.0.2"
+    "cf-fetch-response": "^1.0.3"
   }
 }

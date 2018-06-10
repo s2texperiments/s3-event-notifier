@@ -24,7 +24,7 @@ describe('s3-event-notifier', () => {
     let cfUpdateEvent;
     let cfDeleteEvent;
 
-    const expectedCreateArn = 'arn:aws:cloudformation:eu-west-1:099687127161:stack/s2t-base/3d992e90-691c-11e8-96cc-50faeb5cc8d2:s3EventNotifier:s2t-base-s2tbucket-vzm2iluhy0i4:s3:ObjectCreated:*:arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tIncomingNotTranscodedFileEventHandler-1IVY6J7ZLXR01';
+    const expectedCreateArn = 'arn:aws:cloudformation:eu-west-1:099687127161:stack/s2t-base/3d992e90-691c-11e8-96cc-50faeb5cc8d2:s3EventNotifier';//:s2t-base-s2tbucket-vzm2iluhy0i4:s3:ObjectCreated:*:arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tIncomingNotTranscodedFileEventHandler-1IVY6J7ZLXR01';
     const expectedLambdaFnArn = 'arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tIncomingNotTranscodedFileEventHandler-1IVY6J7ZLXR01';
 
     beforeEach(() => {
