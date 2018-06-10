@@ -33,18 +33,18 @@ async function doHandle(event, context) {
             return {};
         }
 
-        let rules = [];
-        let pushIf = (condition, value) => condition ? rules.push(value) : -1;
-
-        pushIf(s3Prefix, {
+        let rules = [{
             Name: 'prefix',
             Value: s3Prefix
-        });
-
-        pushIf(s3Suffix, {
+        }, {
             Name: 'suffix',
             Value: s3Suffix
-        });
+        }].reduce((rules, filterCfg) => {
+            if (filterCfg.Value) {
+                rules.push(filterCfg)
+            }
+            return rules;
+        }, []);
 
         return {
             Filter: {
