@@ -2,8 +2,8 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 
 module.exports = {
-    putBucketNotification: async (params) =>
+    putBucketNotificationConfiguration: async (params) =>
         new Promise((resolve, rejected) =>
-            s3.putBucketNotification(params, (err, data) =>
+            s3.putBucketNotificationConfiguration(params, (err, data) =>
                 err ? rejected(err) : resolve(data)))
 };

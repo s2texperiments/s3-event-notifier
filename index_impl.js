@@ -54,7 +54,7 @@ exports.handler = async (event, context) => {
     };
 
 
-    return s3Api.putBucketNotification({
+    return s3Api.putBucketNotificationConfiguration({
         Bucket: s3Bucket,
         NotificationConfiguration: {
             LambdaFunctionConfigurations: [createLamdbaFnConfiguration()]

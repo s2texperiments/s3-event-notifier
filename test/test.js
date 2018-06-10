@@ -17,7 +17,7 @@ describe('s3-event-notifier', () => {
 
     let successFake;
     let failFake;
-    let s3putBucketNotificationFake;
+    let s3putBucketNotificationConfigurationFake;
     let underTest;
 
     let cfCreateEvent;
@@ -30,7 +30,7 @@ describe('s3-event-notifier', () => {
     beforeEach(() => {
         successFake = fake.resolves("send suc");
         failFake = fake.resolves("send fail");
-        s3putBucketNotificationFake = fake.resolves({status: 'successful'});
+        s3putBucketNotificationConfigurationFake = fake.resolves({status: 'successful'});
 
         underTest = proxyquire('../index_impl.js', {
             'cf-fetch-response': {
@@ -38,7 +38,7 @@ describe('s3-event-notifier', () => {
                 sendFail: failFake
             },
             './s3Api': {
-                putBucketNotification: s3putBucketNotificationFake
+                putBucketNotificationConfiguration: s3putBucketNotificationConfigurationFake
             }
         });
 
@@ -94,7 +94,7 @@ describe('s3-event-notifier', () => {
         let data = expectCustomData(custom);
         expectCustomDataNotificatinId(data);
 
-        let [s3PutParam] = s3putBucketNotificationFake.firstCall.args;
+        let [s3PutParam] = s3putBucketNotificationConfigurationFake.firstCall.args;
         expectS3Bucket(s3PutParam);
         let s3PutNotifyLambdaConfig = expectLambdaFunctionConfigurations(s3PutParam);
 
@@ -119,7 +119,7 @@ describe('s3-event-notifier', () => {
         let data = expectCustomData(custom);
         expectCustomDataNotificatinId(data);
 
-        let [s3PutParam] = s3putBucketNotificationFake.firstCall.args;
+        let [s3PutParam] = s3putBucketNotificationConfigurationFake.firstCall.args;
         expectS3Bucket(s3PutParam);
         let s3PutNotifyLambdaConfig = expectLambdaFunctionConfigurations(s3PutParam);
 
@@ -150,7 +150,7 @@ describe('s3-event-notifier', () => {
         let data = expectCustomData(custom);
         expectCustomDataNotificatinId(data);
 
-        let [s3PutParam] = s3putBucketNotificationFake.firstCall.args;
+        let [s3PutParam] = s3putBucketNotificationConfigurationFake.firstCall.args;
         expectS3Bucket(s3PutParam);
         let s3PutNotifyLambdaConfig = expectLambdaFunctionConfigurations(s3PutParam);
 
@@ -183,7 +183,7 @@ describe('s3-event-notifier', () => {
         let data = expectCustomData(custom);
         expectCustomDataNotificatinId(data);
 
-        let [s3PutParam] = s3putBucketNotificationFake.firstCall.args;
+        let [s3PutParam] = s3putBucketNotificationConfigurationFake.firstCall.args;
         expectS3Bucket(s3PutParam);
         let s3PutNotifyLambdaConfig = expectLambdaFunctionConfigurations(s3PutParam);
 
