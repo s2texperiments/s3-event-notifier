@@ -69,7 +69,7 @@ describe('s3-event-notifier', () => {
     });
 
     it('create failed (s3 request) -> send failed ', async () => {
-        underTest = proxyquire('../index.js', {
+        underTest = proxyquire('../index_impl.js', {
             'cf-fetch-response': {
                 sendSuccess: successFake,
                 sendFail: failFake
