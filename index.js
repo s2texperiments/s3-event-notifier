@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
 
     return (async () => {
         try {
-            return require("./index_impl.js").doHandle(event, context).catch((e) => sendFail(e));
+            return require("./index_impl.js").handler(event, context).catch((e) => sendFail(e));
         } catch (e) {
             return sendFail(e);
         }
