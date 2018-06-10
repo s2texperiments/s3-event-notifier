@@ -61,7 +61,7 @@ exports.handler = async (event, context) => {
         },
     }).then(() => response.sendSuccess(event, context, {
         data: {
-            NotificationId: `${stackId}:s3EventNotifier:${s3Bucket}:${s3Event}:${eventLambdaArn}`
+            NotificationId: `${stackId}:s3EventNotifier` //:${s3Bucket}:${s3Event}:${eventLambdaArn}`
         }
     }));
 };
