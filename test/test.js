@@ -1,4 +1,7 @@
-const expect = require('chai').expect;
+const chai = require('chai');
+chai.use(require('chai-as-promised'));
+const expect = chai.expect;
+
 const sinon = require('sinon');
 const fake = require('sinon').fake;
 
@@ -50,27 +53,19 @@ describe('s3-event-notifier', () => {
         sinon.restore();
     });
 
-    it('missing S3Bucket argument should send fail response ', async () => {
-        //hard copy
+    it('missing S3Bucket argument should promise should be rejected', async () => {
         delete cfCreateEvent.ResourceProperties.S3Bucket;
-        await underTest.handler(cfCreateEvent, cfContext);
-
-        expectFailCFResponse();
+        return expect(underTest.handler(cfCreateEvent, cfContext)).be.rejected;
     });
 
-    it('missing S3Event argument should send fail response ', async () => {
-        //hard copy
+    it('missing S3Event argument sshould promise should be rejected ', async () => {
         delete cfCreateEvent.ResourceProperties.S3Event;
-        await underTest.handler(cfCreateEvent, cfContext);
-
-        expectFailCFResponse();
+        return expect(underTest.handler(cfCreateEvent, cfContext)).be.rejected;
     });
 
-    it('missing EventLambdaArn argument should send fail response ', async () => {
-        //hard copy
+    it('missing EventLambdaArn argument should promise should be rejected ', async () => {
         delete cfCreateEvent.ResourceProperties.EventLambdaArn;
-        await underTest.handler(cfCreateEvent, cfContext);
-        expectFailCFResponse();
+        return expect(underTest.handler(cfCreateEvent, cfContext)).be.rejected;
     });
 
     it('create failed (s3 request) -> send failed ', async () => {
@@ -84,10 +79,7 @@ describe('s3-event-notifier', () => {
             }
         });
 
-        await underTest.handler(cfCreateEvent, cfContext);
-
-        expectFailCFResponse();
-
+        return expect(underTest.handler(cfCreateEvent, cfContext)).be.rejected;
     });
 
     it('create successful -> send success', async () => {

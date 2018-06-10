@@ -1,14 +1,7 @@
-const response = require("cf-fetch-response");
 const s3Api = require('./s3Api.js');
+const response = require("cf-fetch-response");
 
 exports.handler = async (event, context) => {
-    console.log(`REQUEST RECEIVED: ${JSON.stringify(event)}`);
-    console.log(`Context RECEIVED: ${JSON.stringify(context)}`);
-    return doHandle(event, context)
-        .catch((e) => response.sendFail(event, context, e.message));
-};
-
-async function doHandle(event, context) {
 
     let {
         StackId: stackId,
@@ -71,4 +64,4 @@ async function doHandle(event, context) {
             NotificationId: `${stackId}:s3EventNotifier:${s3Bucket}:${s3Event}:${eventLambdaArn}`
         }
     }));
-}
+};
