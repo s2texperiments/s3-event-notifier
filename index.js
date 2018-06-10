@@ -29,10 +29,6 @@ async function doHandle(event, context) {
     }
 
     let collectFilterProperty = () => {
-        if (!(s3Prefix || s3Suffix)) {
-            return {};
-        }
-
         let rules = [{
             Name: 'prefix',
             Value: s3Prefix
@@ -46,13 +42,13 @@ async function doHandle(event, context) {
             return rules;
         }, []);
 
-        return {
+        return rules.length ? {
             Filter: {
                 Key: {
                     FilterRules: rules
                 }
             },
-        }
+        } : {};
     };
 
     let createLamdbaFnConfiguration = () => {
