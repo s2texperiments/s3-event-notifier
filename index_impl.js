@@ -5,6 +5,7 @@ exports.handler = async (event, context) => {
 
     let {
         StackId: stackId,
+        LogicalResourceId: logicalResourceId,
         ResourceProperties: {
             S3Bucket: s3Bucket,
             S3Prefix: s3Prefix,
@@ -48,7 +49,7 @@ exports.handler = async (event, context) => {
         let cfg = {
             Events: [s3Event],
             LambdaFunctionArn: eventLambdaArn,
-            Id: `${stackId}:s3EventNotifier`//:${s3Bucket}:${s3Event}:${eventLambdaArn}`,
+            Id: `${stackId}:s3EventNotifier:${logicalResourceId}`
         };
         return Object.assign(collectFilterProperty(s3Prefix, s3Suffix), cfg);
     };
@@ -61,7 +62,7 @@ exports.handler = async (event, context) => {
         },
     }).then(() => response.sendSuccess(event, context, {
         data: {
-            NotificationId: `${stackId}:s3EventNotifier` //:${s3Bucket}:${s3Event}:${eventLambdaArn}`
+            NotificationId: `${stackId}:s3EventNotifier:${logicalResourceId}`
         }
     }));
 };
