@@ -1,0 +1,9 @@
+{
+  "TopicConfigurations": [],
+  "QueueConfigurations": [],
+  "LambdaFunctionConfigurations": [
+    {
+      "Id": "arn:aws:cloudformation:eu-west-1:099687127161:stack/s2t-base/3d992e90-691c-11e8-96cc-50faeb5cc8d2:s3EventNotifier:s2tTrackAllS3"
+    }
+  ]
+}

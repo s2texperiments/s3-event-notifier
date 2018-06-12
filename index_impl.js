@@ -1,7 +1,88 @@
 const s3Api = require('./s3Api.js');
 const response = require("cf-fetch-response");
 
+
+let createFn = async (event, context) => {
+    let {
+        StackId: stackId,
+        LogicalResourceId: logicalResourceId,
+        ResourceProperties: {
+            S3Bucket: s3Bucket,
+            S3Prefix: s3Prefix,
+            S3Suffix: s3Suffix,
+            S3Event: s3Event,
+            EventLambdaArn: eventLambdaArn
+        }
+    } = event;
+
+    //mandatory fields
+    if (!s3Bucket || !s3Event || !eventLambdaArn) {
+        throw `missing mandatory argument: s3Bucket=${s3Bucket} 
+        S3Event=${s3Event}
+        eventLambdaArn=${eventLambdaArn}`
+    }
+
+    let oldNotificationConfigurations = await s3Api.getBucketNotificationConfiguration({Bucket: s3Bucket});
+
+    let collectFilterProperty = () => {
+        let rules = [{
+            Name: 'prefix',
+            Value: s3Prefix
+        }, {
+            Name: 'suffix',
+            Value: s3Suffix
+        }].reduce((rules, filterCfg) => {
+            if (filterCfg.Value) {
+                rules.push(filterCfg)
+            }
+            return rules;
+        }, []);
+
+        return rules.length ? {
+            Filter: {
+                Key: {
+                    FilterRules: rules
+                }
+            },
+        } : {};
+    };
+
+    let createLamdbaFnConfiguration = () => Object.assign(collectFilterProperty(s3Prefix, s3Suffix), {
+        Events: [s3Event],
+        LambdaFunctionArn: eventLambdaArn,
+        Id: `${stackId}:s3EventNotifier:${logicalResourceId}`
+    });
+
+    oldNotificationConfigurations.LambdaFunctionConfigurations.push(createLamdbaFnConfiguration());
+
+    return s3Api.putBucketNotificationConfiguration({
+        Bucket: s3Bucket,
+        NotificationConfiguration: oldNotificationConfigurations
+    }).then(() => response.sendSuccess(event, context, {
+        data: {
+            NotificationId: `${stackId}:s3EventNotifier:${logicalResourceId}`
+        }
+    }));
+};
+
+let deleteFn = () => {
+
+};
+
+
 exports.handler = async (event, context) => {
+    switch (event.RequestType.toLowerCase()) {
+        case 'create': {
+            return createFn(event, context);
+        }
+        case 'update': {
+            return createFn(event, context);
+        }
+        case 'delete': {
+            console.log('d');
+            break;
+        }
+    }
 
     let {
         StackId: stackId,

@@ -1,0 +1,19 @@
+{
+  "TopicConfigurations": [
+    {
+      "Id": "topicConfig1"
+    },
+    {
+      "Id": "topicConfig2"
+    }
+  ],
+  "QueueConfigurations": [
+    {
+      "Id": "queueConfig1"
+    },
+    {
+      "Id": "queueConfig2"
+    }
+  ],
+  "LambdaFunctionConfigurations": []
+}
