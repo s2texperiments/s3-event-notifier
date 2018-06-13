@@ -32,7 +32,8 @@ describe('s3-event-notifier', () => {
     let cfDeleteEvent;
 
     const defaultExpectedNotificationId = 'arn:aws:cloudformation:eu-west-1:099687127161:stack/s2t-base/3d992e90-691c-11e8-96cc-50faeb5cc8d2:s3EventNotifier:s2tTrackAllS3';
-    const expectedLambdaFnArn = 'arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tIncomingNotTranscodedFileEventHandler-1IVY6J7ZLXR01';
+    const expectedCreateLambdaFnArn = 'arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tIncomingNotTranscodedFileEventHandler-1IVY6J7ZLXR01';
+    const expectedUpdateLambdaFnArn = 'arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tUpdatedEventHandler-1IVY6J7ZLXR01';
 
     beforeEach(() => {
         successFake = fake.resolves("send suc");
@@ -244,36 +245,86 @@ describe('s3-event-notifier', () => {
 
     });
 
-    // describe('Update existing S3 Lambda Notification Event', () => {
-    //
-    //     it('No given Events -> rejected', async () => {
-    //         return expect(underTest.handler(cfUpdateEvent, cfContext)).be.rejected;
-    //     });
-    //
-    //     it('Event with requested Id does not exists -> rejected', async () => {
-    //         return expect(underTest.handler(cfCreateEvent, cfContext)).be.rejected;
-    //     });
-    //
-    //     it('Event with requested Id exists -> update -> succeed', async () => {
-    //         throw "missing";
-    //     });
-    //
-    // });
-    //
-    // describe('Delete S3 Lambda Notification Event', () => {
-    //
-    //     it('Event with requested Id exists -> update -> succeed', async () => {
-    //         throw "missing";
-    //     });
-    //
-    //     it('No given Events -> succeed', async () => {
-    //         throw "missing";
-    //     });
-    //
-    //     it('Event with requested Id does not exists -> succeed', async () => {
-    //         throw "missing";
-    //     });
-    // });
+    describe('Update existing S3 Lambda Notification Event', () => {
+
+        it('No given Events -> rejected', async () => {
+            return expect(underTest.handler(cfUpdateEvent, cfContext)).be.rejected;
+        });
+
+        it('Event with requested Id does not exists -> rejected', async () => {
+
+            let underTest = proxyquire('../index_impl.js', {
+                'cf-fetch-response': {
+                    sendSuccess: successFake,
+                    sendFail: failFake
+                },
+                './s3Api': {
+                    putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
+                    getBucketNotificationConfiguration: s3GetBucketNotificationConfigOtherLambdaEventsFake
+                }
+            });
+
+            return expect(underTest.handler(cfUpdateEvent, cfContext)).be.rejected;
+        });
+
+        it('Event with requested Id exists -> update -> succeed', async () => {
+
+            let underTest = proxyquire('../index_impl.js', {
+                'cf-fetch-response': {
+                    sendSuccess: successFake,
+                    sendFail: failFake
+                },
+                './s3Api': {
+                    putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
+                    getBucketNotificationConfiguration: s3GetBucketNotificationConfigLambdaEventWithSameIdFake
+                }
+            });
+
+            await underTest.handler(cfUpdateEvent, cfContext);
+
+            expectSuccessCFResponse();
+
+            let [event, context, custom] = successFake.firstCall.args;
+            expectByPass(event, context, {expectedEvent: cfUpdateEvent});
+
+            let data = expectCustomData(custom);
+            expectCustomDataNotificatinId(data);
+
+            let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
+            expectS3Bucket(s3PutParam);
+
+            expectTopicConfigurations(s3PutParam);
+            expectQueueConfigurations(s3PutParam);
+
+            let [s3AlreadyExistingNotifyLambdaConfig1, s3PutNotifyLambdaConfig] =
+                expectLambdaFunctionConfigurations(s3PutParam, {expectedSize: 2});
+
+            expect(s3AlreadyExistingNotifyLambdaConfig1).include({Id: 'lambdaConfig1'});
+
+
+            expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id');
+            expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
+            expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn, {expectedArn: expectedUpdateLambdaFnArn});
+            expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
+
+        });
+
+    });
+
+    describe('Delete S3 Lambda Notification Event', () => {
+
+        it('Event with requested Id exists -> update -> succeed', async () => {
+            throw "missing";
+        });
+
+        it('No given Events -> succeed', async () => {
+            throw "missing";
+        });
+
+        it('Event with requested Id does not exists -> succeed', async () => {
+            throw "missing";
+        });
+    });
 
     describe('S3 Lambda Notification Event Filter', () => {
 
@@ -396,8 +447,8 @@ describe('s3-event-notifier', () => {
         expect(failFake.callCount).to.equal(0);
     }
 
-    function expectByPass(event, context) {
-        expect(event).to.deep.equal(cfCreateEvent);
+    function expectByPass(event, context, {expectedEvent = cfCreateEvent} = {}) {
+        expect(event).to.deep.equal(expectedEvent);
         expect(context).to.deep.equal(cfContext);
     }
 
@@ -436,7 +487,7 @@ describe('s3-event-notifier', () => {
         expect(events[0]).to.equal(expectedEvent);
     }
 
-    function expectPutNotificationLambdaArn(lambdaFunctionArn, {expectedArn = expectedLambdaFnArn} = {}) {
+    function expectPutNotificationLambdaArn(lambdaFunctionArn, {expectedArn = expectedCreateLambdaFnArn} = {}) {
         expect(lambdaFunctionArn).to.equal(expectedArn)
     }
 

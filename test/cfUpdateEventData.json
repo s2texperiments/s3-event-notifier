@@ -11,7 +11,7 @@
     "ServiceToken": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s3EventNotifier-NVGOLL6H0BOT",
     "S3Bucket": "s2t-base-s2tbucket-vzm2iluhy0i4",
     "S3Event": "s3:ObjectCreated:*",
-    "EventLambdaArn": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tOtherEventHandler-1IVY6J7ZLXR01"
+    "EventLambdaArn": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tUpdatedEventHandler-1IVY6J7ZLXR01"
   },
   "OldResourceProperties": {
     "ServiceToken": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s3EventNotifier-NVGOLL6H0BOT",
