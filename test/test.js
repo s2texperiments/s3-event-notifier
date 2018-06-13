@@ -313,17 +313,66 @@ describe('s3-event-notifier', () => {
 
     describe('Delete S3 Lambda Notification Event', () => {
 
-        // it('Event with requested Id exists -> update -> succeed', async () => {
-        //     throw "missing";
-        // });
-        //
-        // it('No given Events -> succeed', async () => {
-        //     throw "missing";
-        // });
-        //
-        // it('Event with requested Id does not exists -> succeed', async () => {
-        //     throw "missing";
-        // });
+        it('Event with requested Id exists -> remove -> succeed', async () => {
+            let underTest = proxyquire('../index_impl.js', {
+                'cf-fetch-response': {
+                    sendSuccess: successFake,
+                    sendFail: failFake
+                },
+                './s3Api': {
+                    putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
+                    getBucketNotificationConfiguration: s3GetBucketNotificationConfigLambdaEventWithSameIdFake
+                }
+            });
+
+            await underTest.handler(cfDeleteEvent, cfContext);
+
+            expectSuccessCFResponse();
+
+            let [event, context, custom] = successFake.firstCall.args;
+            expectByPass(event, context, {expectedEvent: cfDeleteEvent});
+
+            let data = expectCustomData(custom);
+            expectCustomDataNotificatinId(data);
+
+            let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
+            expectS3Bucket(s3PutParam);
+
+            expectTopicConfigurations(s3PutParam);
+            expectQueueConfigurations(s3PutParam);
+
+            let [s3OtherNotifyLambdaConfig1] = expectLambdaFunctionConfigurations(s3PutParam, {expectedSize: 1});
+
+            expect(s3OtherNotifyLambdaConfig1).include({Id: 'lambdaConfig1'});
+        });
+
+        it('No given Events -> succeed', async () => {
+            await underTest.handler(cfDeleteEvent, cfContext);
+            expectSuccessCFResponse();
+
+            let [event, context] = successFake.firstCall.args;
+            expectByPass(event, context, {expectedEvent: cfDeleteEvent});
+        });
+
+        it('Event with requested Id does not exists -> succeed', async () => {
+            let underTest = proxyquire('../index_impl.js', {
+                'cf-fetch-response': {
+                    sendSuccess: successFake,
+                    sendFail: failFake
+                },
+                './s3Api': {
+                    putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
+                    getBucketNotificationConfiguration: s3GetBucketNotificationConfigOtherLambdaEventsFake
+                }
+            });
+            await underTest.handler(cfDeleteEvent, cfContext);
+
+            expectSuccessCFResponse();
+
+            let [event, context] = successFake.firstCall.args;
+            expectByPass(event, context, {expectedEvent: cfDeleteEvent});
+
+        });
     });
 
     describe('S3 Lambda Notification Event Filter', () => {

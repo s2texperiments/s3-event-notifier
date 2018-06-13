@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
             return update(event, context);
         }
         case 'delete': {
-            break;
+            return deleteFn(event, context);
         }
     }
 };
@@ -35,7 +35,7 @@ let create = async (event, context) => {
     console.log(`Create S3 notification configuration for ${notificationId}`);
     //mandatory fields
     if (!S3Bucket || !S3Event || !EventLambdaArn) {
-        throw `missing mandatory argument: s3Bucket=${s3Bucket} S3Event=${s3Event} eventLambdaArn=${eventLambdaArn}`
+        throw `missing mandatory argument: s3Bucket=${S3Bucket} S3Event=${S3Event} eventLambdaArn=${EventLambdaArn}`
     }
 
     console.log(`get bucket notification configuration for ${S3Bucket}`);
@@ -94,7 +94,7 @@ let update = async (event, context) => {
     console.log(`Update S3 notification configuration for ${notificationId}`);
     //mandatory fields
     if (!S3Bucket || !S3Event || !EventLambdaArn) {
-        throw `missing mandatory argument: s3Bucket=${s3Bucket} S3Event=${s3Event} eventLambdaArn=${eventLambdaArn}`
+        throw `missing mandatory argument: s3Bucket=${S3Bucket} S3Event=${S3Event} eventLambdaArn=${EventLambdaArn}`
     }
 
     console.log(`get bucket notification configuration for ${S3Bucket}`);
@@ -126,6 +126,54 @@ let update = async (event, context) => {
             TopicConfigurations: oldTopicConfigurations,
             QueueConfigurations: oldQueueConfigurations,
             LambdaFunctionConfigurations: [...(oldLambdaFnConfigurations.filter(n => n.Id !== notificationId)), newLambdaFnConfiguration]
+        }
+    }).then(() => response.sendSuccess(event, context, {
+        data: {
+            NotificationId: createNotificationId({StackId, LogicalResourceId})
+        }
+    }));
+};
+
+let deleteFn = async (event, context) => {
+
+    let {
+        StackId: StackId,
+        LogicalResourceId: LogicalResourceId,
+        ResourceProperties: {
+            S3Bucket
+        }
+    } = event;
+
+    let notificationId = createNotificationId({StackId, LogicalResourceId});
+
+    console.log(`Delete S3 notification configuration for ${notificationId}`);
+    //mandatory fields
+    if (!S3Bucket) {
+        throw `missing mandatory argument: s3Bucket=${s3Bucket}`
+    }
+
+    console.log(`get bucket notification configuration for ${S3Bucket}`);
+    let {
+        TopicConfigurations: oldTopicConfigurations,
+        QueueConfigurations: oldQueueConfigurations,
+        LambdaFunctionConfigurations: oldLambdaFnConfigurations
+    } = await s3Api.getBucketNotificationConfiguration({Bucket: S3Bucket});
+
+
+    console.log(`Search lambda function configuration to delete`);
+    let existingLambdaFnConfig = oldLambdaFnConfigurations.find(n => n.Id === notificationId);
+    if (!existingLambdaFnConfig) {
+        return response.sendSuccess(event, context);
+    }
+
+
+    console.log(`Delete lambda function configuration and push it to bucket ${S3Bucket}`);
+    return s3Api.putBucketNotificationConfiguration({
+        Bucket: S3Bucket,
+        NotificationConfiguration: {
+            TopicConfigurations: oldTopicConfigurations,
+            QueueConfigurations: oldQueueConfigurations,
+            LambdaFunctionConfigurations: [...(oldLambdaFnConfigurations.filter(n => n.Id !== notificationId))]
         }
     }).then(() => response.sendSuccess(event, context, {
         data: {
