@@ -71,7 +71,8 @@ let create = async (event, context) => {
     }).then(() => response.sendSuccess(event, context, {
         data: {
             NotificationId: createNotificationId({StackId, LogicalResourceId})
-        }
+        },
+        physicalResourceId:createNotificationId({StackId, LogicalResourceId})
     }));
 };
 
@@ -130,7 +131,8 @@ let update = async (event, context) => {
     }).then(() => response.sendSuccess(event, context, {
         data: {
             NotificationId: createNotificationId({StackId, LogicalResourceId})
-        }
+        },
+        physicalResourceId:createNotificationId({StackId, LogicalResourceId})
     }));
 };
 
@@ -178,7 +180,8 @@ let deleteFn = async (event, context) => {
     }).then(() => response.sendSuccess(event, context, {
         data: {
             NotificationId: createNotificationId({StackId, LogicalResourceId})
-        }
+        },
+        physicalResourceId:createNotificationId({StackId, LogicalResourceId})
     }));
 };
 
