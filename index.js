@@ -9,10 +9,13 @@ exports.handler = async (event, context) => {
         return response.sendFail(event, context, e)
     };
 
+
+
     return (async () => {
         try {
             return Promise.resolve(require("./index_impl.js").handler(event, context))
                 .then(e =>  response.wasCfResponseForwarded() ? e : sendFail('cf response not forwarded') )
+                .then(e => new Promise(resolve => setTimeout(()=>resolve(e),5000)) )
                 .catch((e) => sendFail(e));
         } catch (e) {
             return sendFail(e);
