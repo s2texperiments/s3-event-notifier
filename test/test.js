@@ -493,7 +493,9 @@ describe('s3-event-notifier', () => {
 
     function expectSuccessCFResponse() {
         expect(successFake.callCount).to.equal(1);
-        expect(failFake.callCount).to.equal(0);
+        expect(successFake.callCount).to.equal(1);
+        let [,,{physicalResourceId}] = successFake.firstCall.args;
+        expect(physicalResourceId).to.equal(defaultExpectedNotificationId);
     }
 
     function expectByPass(event, context, {expectedEvent = cfCreateEvent} = {}) {

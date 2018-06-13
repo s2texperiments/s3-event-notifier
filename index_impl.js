@@ -72,7 +72,7 @@ let create = async (event, context) => {
         data: {
             NotificationId: createNotificationId({StackId, LogicalResourceId})
         },
-        physicalResourceId:createNotificationId({StackId, LogicalResourceId})
+        physicalResourceId: createNotificationId({StackId, LogicalResourceId})
     }));
 };
 
@@ -132,7 +132,7 @@ let update = async (event, context) => {
         data: {
             NotificationId: createNotificationId({StackId, LogicalResourceId})
         },
-        physicalResourceId:createNotificationId({StackId, LogicalResourceId})
+        physicalResourceId: createNotificationId({StackId, LogicalResourceId})
     }));
 };
 
@@ -165,7 +165,9 @@ let deleteFn = async (event, context) => {
     console.log(`Search lambda function configuration to delete`);
     let existingLambdaFnConfig = oldLambdaFnConfigurations.find(n => n.Id === notificationId);
     if (!existingLambdaFnConfig) {
-        return response.sendSuccess(event, context);
+        return response.sendSuccess(event, context, {
+            physicalResourceId: notificationId
+        });
     }
 
 
@@ -181,7 +183,7 @@ let deleteFn = async (event, context) => {
         data: {
             NotificationId: createNotificationId({StackId, LogicalResourceId})
         },
-        physicalResourceId:createNotificationId({StackId, LogicalResourceId})
+        physicalResourceId: createNotificationId({StackId, LogicalResourceId})
     }));
 };
 
