@@ -61,7 +61,7 @@ let create = async (event, context) => {
     });
 
     console.log(`Merge lambda function configuration and push it to bucket ${S3Bucket}`);
-    return s3Api.putBucketNotificationConfiguration({
+    return await s3Api.putBucketNotificationConfiguration({
         Bucket: S3Bucket,
         NotificationConfiguration: {
             TopicConfigurations: oldTopicConfigurations,
@@ -121,7 +121,7 @@ let update = async (event, context) => {
     });
 
     console.log(`Merge lambda function configuration and push it to bucket ${S3Bucket}`);
-    return s3Api.putBucketNotificationConfiguration({
+    return await s3Api.putBucketNotificationConfiguration({
         Bucket: S3Bucket,
         NotificationConfiguration: {
             TopicConfigurations: oldTopicConfigurations,
@@ -165,14 +165,14 @@ let deleteFn = async (event, context) => {
     console.log(`Search lambda function configuration to delete`);
     let existingLambdaFnConfig = oldLambdaFnConfigurations.find(n => n.Id === notificationId);
     if (!existingLambdaFnConfig) {
-        return response.sendSuccess(event, context, {
+        return await response.sendSuccess(event, context, {
             physicalResourceId: notificationId
         });
     }
 
 
     console.log(`Delete lambda function configuration and push it to bucket ${S3Bucket}`);
-    return s3Api.putBucketNotificationConfiguration({
+    return await s3Api.putBucketNotificationConfiguration({
         Bucket: S3Bucket,
         NotificationConfiguration: {
             TopicConfigurations: oldTopicConfigurations,
