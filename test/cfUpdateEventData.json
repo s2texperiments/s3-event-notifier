@@ -1,23 +1,21 @@
 {
   "RequestType": "Update",
-  "ServiceToken": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-test2-s3EventNotifier-1KU6GYO85VVKY",
+  "ServiceToken": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s3EventNotifier-NVGOLL6H0BOT",
   "ResponseURL": "https://cloudformation-custom-resource-response-euwest1.s3-eu-west-1.amazonaws.com/arn%3Aaws%3Acloudformation%3Aeu-west-1%3A099687127161%3Astack/s2t-base/3d992e90-691c-11e8-96cc-50faeb5cc8d2%7Cs2tTrackAllS3%7C77afbba7-4cde-4e70-98c1-63abb75fc370?AWSAccessKeyId=AKIAJ7MCS7PVEUOADEEA&Expires=1528250314&Signature=bMQzzx3tW8rp9Nomr5mvl3ukSrI%3D",
-  "StackId": "arn:aws:cloudformation:eu-west-1:099687127161:stack/s2t-test2/c6217870-6a8f-11e8-8b6d-500c4241c2fe",
-  "RequestId": "2dc18557-6c40-4fea-8f01-9d6ce6b4e788",
+  "StackId": "arn:aws:cloudformation:eu-west-1:099687127161:stack/s2t-base/3d992e90-691c-11e8-96cc-50faeb5cc8d2",
+  "RequestId": "77afbba7-4cde-4e70-98c1-63abb75fc370",
   "LogicalResourceId": "s2tTrackAllS3",
   "PhysicalResourceId": "2018/06/07/[$LATEST]7921d97e8b7241b89f5be926f2b0a357",
   "ResourceType": "AWS::CloudFormation::CustomResource",
   "ResourceProperties": {
-    "ServiceToken": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-test2-s3EventNotifier-1KU6GYO85VVKY",
+    "ServiceToken": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s3EventNotifier-NVGOLL6H0BOT",
     "S3Bucket": "s2t-base-s2tbucket-vzm2iluhy0i4",
-    "S3Prefix": "gcp/not-transcoded",
     "S3Event": "s3:ObjectCreated:*",
-    "EventLambdaArn": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tIncomingNotTranscodedFileEventHandler-1IVY6J7ZLXR01"
+    "EventLambdaArn": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tOtherEventHandler-1IVY6J7ZLXR01"
   },
   "OldResourceProperties": {
-    "ServiceToken": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-test2-s3EventNotifier-1KU6GYO85VVKY",
+    "ServiceToken": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s3EventNotifier-NVGOLL6H0BOT",
     "S3Bucket": "s2t-base-s2tbucket-vzm2iluhy0i4",
-    "S3Prefix": "gcp/another-prefix",
     "S3Event": "s3:ObjectCreated:*",
     "EventLambdaArn": "arn:aws:lambda:eu-west-1:099687127161:function:s2t-base-s2tIncomingNotTranscodedFileEventHandler-1IVY6J7ZLXR01"
   }
