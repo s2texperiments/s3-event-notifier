@@ -44,7 +44,7 @@ let create = async (event, context) => {
         QueueConfigurations: oldQueueConfigurations,
         LambdaFunctionConfigurations: oldLambdaFnConfigurations
     } = await s3Api.getBucketNotificationConfiguration({Bucket: S3Bucket});
-
+    console.log(`Old LambdaFunctionConfigurations: ${oldLambdaFnConfigurations}`);
 
     console.log(`Search preexisting lambda function configuration with same id`);
     let existingLambdaFnConfig = oldLambdaFnConfigurations.find(n => n.Id === notificationId);
@@ -104,7 +104,7 @@ let update = async (event, context) => {
         QueueConfigurations: oldQueueConfigurations,
         LambdaFunctionConfigurations: oldLambdaFnConfigurations
     } = await s3Api.getBucketNotificationConfiguration({Bucket: S3Bucket});
-
+    console.log(`Old LambdaFunctionConfigurations: ${oldLambdaFnConfigurations}`);
 
     console.log(`Search lambda function configuration to update`);
     let existingLambdaFnConfig = oldLambdaFnConfigurations.find(n => n.Id === notificationId);
@@ -160,7 +160,7 @@ let deleteFn = async (event, context) => {
         QueueConfigurations: oldQueueConfigurations,
         LambdaFunctionConfigurations: oldLambdaFnConfigurations
     } = await s3Api.getBucketNotificationConfiguration({Bucket: S3Bucket});
-
+    console.log(`Old LambdaFunctionConfigurations: ${oldLambdaFnConfigurations}`);
 
     console.log(`Search lambda function configuration to delete`);
     let existingLambdaFnConfig = oldLambdaFnConfigurations.find(n => n.Id === notificationId);
