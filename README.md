@@ -19,4 +19,4 @@ S3Suffix: suffix event filter (something like .img)
 Currently only on S3Event can be set.
 
 Simultaneous creation of S3 event notification on the same bucket leads to crashes of the cloudformation template.
-Workaround: build a chain with dependsOn method to ensure that S3-Event-Notifier will be called sequential.
+Workaround: build a chain with DependsOn method to ensure that S3-Event-Notifier will be called sequential.
