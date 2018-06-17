@@ -26,7 +26,9 @@ let putBucketNotificationConfigurationWithRetry = async (params) => putBucketNot
     });
 
 module.exports = {
-    putBucketNotificationConfiguration: async (params) => putBucketNotificationConfigurationWithRetry(params),
+    putBucketNotificationConfiguration: async (params) =>new Promise((resolve, rejected) =>
+        s3.putBucketNotificationConfiguration(params, (err, data) =>
+            err ? rejected(err) : resolve(data))),
     getBucketNotificationConfiguration: async (params) =>
         new Promise((resolve, rejected) =>
             s3.getBucketNotificationConfiguration(params, (err, data) =>

@@ -61,36 +61,19 @@ let create = async (event, context) => {
     });
 
     console.log(`Merge lambda function configuration and push it to bucket ${S3Bucket}`);
-    await s3Api.putBucketNotificationConfiguration({
+    return s3Api.putBucketNotificationConfiguration({
         Bucket: S3Bucket,
         NotificationConfiguration: {
             TopicConfigurations: oldTopicConfigurations,
             QueueConfigurations: oldQueueConfigurations,
             LambdaFunctionConfigurations: [...oldLambdaFnConfigurations, newLambdaFnConfiguration]
         }
-    });
-
-
-    console.log(`Wait till lambda function configuration is updated in S3`);
-
-    await new Promise((resolve,rejected)=>{
-        setInterval(async ()=>{
-            let {
-                LambdaFunctionConfigurations: updatedLambdaFnConfigurations
-            } = await s3Api.getBucketNotificationConfiguration({Bucket: S3Bucket});
-            let lambdaConfigWasUpdated = updatedLambdaFnConfigurations.find(n => n.Id === notificationId);
-            if (lambdaConfigWasUpdated) {
-                resolve(lambdaConfigWasUpdated);
-            }
-        },1000);
-    });
-
-    return response.sendSuccess(event, context, {
+    }).then(() => response.sendSuccess(event, context, {
         data: {
             NotificationId: createNotificationId({StackId, LogicalResourceId})
         },
         physicalResourceId: createNotificationId({StackId, LogicalResourceId})
-    });
+    }));
 };
 
 let update = async (event, context) => {

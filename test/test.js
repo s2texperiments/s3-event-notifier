@@ -117,131 +117,131 @@ describe('s3-event-notifier', () => {
     });
 
     describe('Create new S3 Lambda Notification Event', () => {
-        // it('Bucket has no other S3 events -> add -> succeed ', async () => {
-        //
-        //     await underTest.handler(cfCreateEvent, cfContext);
-        //
-        //     expectSuccessCFResponse();
-        //
-        //     let [event, context, custom] = successFake.firstCall.args;
-        //     expectByPass(event, context);
-        //
-        //     let data = expectCustomData(custom);
-        //     expectCustomDataNotificatinId(data);
-        //
-        //     let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
-        //     expectS3Bucket(s3PutParam);
-        //
-        //     expectTopicConfigurations(s3PutParam);
-        //     expectQueueConfigurations(s3PutParam);
-        //
-        //     let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
-        //
-        //     expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id');
-        //     expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
-        //     expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
-        //     expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
-        // });
-        //
-        // it('Bucket contains another S3 lambda events -> merge -> succeed', async () => {
-        //
-        //     let underTest = proxyquire('../index_impl.js', {
-        //         'cf-fetch-response': {
-        //             sendSuccess: successFake,
-        //             sendFail: failFake
-        //         },
-        //         './s3Api': {
-        //             putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
-        //             getBucketNotificationConfiguration: s3GetBucketNotificationConfigOtherLambdaEventsFake
-        //         }
-        //     });
-        //
-        //     await underTest.handler(cfCreateEvent, cfContext);
-        //
-        //     expectSuccessCFResponse();
-        //
-        //     let [event, context, custom] = successFake.firstCall.args;
-        //     expectByPass(event, context);
-        //
-        //     let data = expectCustomData(custom);
-        //     expectCustomDataNotificatinId(data);
-        //
-        //     let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
-        //     expectS3Bucket(s3PutParam);
-        //
-        //     expectTopicConfigurations(s3PutParam);
-        //     expectQueueConfigurations(s3PutParam);
-        //
-        //     let [s3AlreadyExistingNotifyLambdaConfig1, s3AlreadyExistingNotifyLambdaConfig2, s3PutNotifyLambdaConfig] =
-        //         expectLambdaFunctionConfigurations(s3PutParam, {expectedSize: 3});
-        //
-        //     expect(s3AlreadyExistingNotifyLambdaConfig1).include({Id: 'lambdaConfig1'});
-        //     expect(s3AlreadyExistingNotifyLambdaConfig2).include({Id: 'lambdaConfig2'});
-        //
-        //
-        //     expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id');
-        //     expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
-        //     expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
-        //     expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
-        // });
-        //
-        // it('Bucket contains another S3 events (but not lambda events) -> merge -> succeed', async () => {
-        //
-        //     let underTest = proxyquire('../index_impl.js', {
-        //         'cf-fetch-response': {
-        //             sendSuccess: successFake,
-        //             sendFail: failFake
-        //         },
-        //         './s3Api': {
-        //             putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
-        //             getBucketNotificationConfiguration: s3GetBucketNotificationConfigOtherNotLambdaEventsFake
-        //         }
-        //     });
-        //
-        //     await underTest.handler(cfCreateEvent, cfContext);
-        //
-        //     expectSuccessCFResponse();
-        //
-        //     let [event, context, custom] = successFake.firstCall.args;
-        //     expectByPass(event, context);
-        //
-        //     let data = expectCustomData(custom);
-        //     expectCustomDataNotificatinId(data);
-        //
-        //     let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
-        //     expectS3Bucket(s3PutParam);
-        //
-        //     let [s3PutNotifyTopicConfig1, s3PutNotifyTopicConfig2] = expectTopicConfigurations(s3PutParam, {expectedSize: 2});
-        //     expect(s3PutNotifyTopicConfig1).include({Id: 'topicConfig1'});
-        //     expect(s3PutNotifyTopicConfig2).include({Id: 'topicConfig2'});
-        //
-        //     let [s3PutNotifyQueueConfig1, s3PutNotifyQueueConfig2] = expectQueueConfigurations(s3PutParam, {expectedSize: 2});
-        //     expect(s3PutNotifyQueueConfig1).include({Id: 'queueConfig1'});
-        //     expect(s3PutNotifyQueueConfig2).include({Id: 'queueConfig2'});
-        //
-        //     let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
-        //
-        //     expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id');
-        //     expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
-        //     expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
-        //     expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
-        // });
-        //
-        // it('Bucket contains S3 lambda event with same identifier -> rejected', async () => {
-        //
-        //     underTest = proxyquire('../index_impl.js', {
-        //         'cf-fetch-response': {
-        //             sendSuccess: successFake,
-        //             sendFail: failFake
-        //         },
-        //         './s3Api': {
-        //             putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
-        //             getBucketNotificationConfiguration: s3GetBucketNotificationConfigLambdaEventWithSameIdFake
-        //         }
-        //     });
-        //
-        //     return expect(underTest.handler(cfCreateEvent, cfContext)).be.rejected;
-        // });
+        it('Bucket has no other S3 events -> add -> succeed ', async () => {
+
+            await underTest.handler(cfCreateEvent, cfContext);
+
+            expectSuccessCFResponse();
+
+            let [event, context, custom] = successFake.firstCall.args;
+            expectByPass(event, context);
+
+            let data = expectCustomData(custom);
+            expectCustomDataNotificatinId(data);
+
+            let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
+            expectS3Bucket(s3PutParam);
+
+            expectTopicConfigurations(s3PutParam);
+            expectQueueConfigurations(s3PutParam);
+
+            let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
+
+            expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id');
+            expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
+            expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
+            expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
+        });
+
+        it('Bucket contains another S3 lambda events -> merge -> succeed', async () => {
+
+            let underTest = proxyquire('../index_impl.js', {
+                'cf-fetch-response': {
+                    sendSuccess: successFake,
+                    sendFail: failFake
+                },
+                './s3Api': {
+                    putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
+                    getBucketNotificationConfiguration: s3GetBucketNotificationConfigOtherLambdaEventsFake
+                }
+            });
+
+            await underTest.handler(cfCreateEvent, cfContext);
+
+            expectSuccessCFResponse();
+
+            let [event, context, custom] = successFake.firstCall.args;
+            expectByPass(event, context);
+
+            let data = expectCustomData(custom);
+            expectCustomDataNotificatinId(data);
+
+            let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
+            expectS3Bucket(s3PutParam);
+
+            expectTopicConfigurations(s3PutParam);
+            expectQueueConfigurations(s3PutParam);
+
+            let [s3AlreadyExistingNotifyLambdaConfig1, s3AlreadyExistingNotifyLambdaConfig2, s3PutNotifyLambdaConfig] =
+                expectLambdaFunctionConfigurations(s3PutParam, {expectedSize: 3});
+
+            expect(s3AlreadyExistingNotifyLambdaConfig1).include({Id: 'lambdaConfig1'});
+            expect(s3AlreadyExistingNotifyLambdaConfig2).include({Id: 'lambdaConfig2'});
+
+
+            expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id');
+            expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
+            expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
+            expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
+        });
+
+        it('Bucket contains another S3 events (but not lambda events) -> merge -> succeed', async () => {
+
+            let underTest = proxyquire('../index_impl.js', {
+                'cf-fetch-response': {
+                    sendSuccess: successFake,
+                    sendFail: failFake
+                },
+                './s3Api': {
+                    putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
+                    getBucketNotificationConfiguration: s3GetBucketNotificationConfigOtherNotLambdaEventsFake
+                }
+            });
+
+            await underTest.handler(cfCreateEvent, cfContext);
+
+            expectSuccessCFResponse();
+
+            let [event, context, custom] = successFake.firstCall.args;
+            expectByPass(event, context);
+
+            let data = expectCustomData(custom);
+            expectCustomDataNotificatinId(data);
+
+            let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
+            expectS3Bucket(s3PutParam);
+
+            let [s3PutNotifyTopicConfig1, s3PutNotifyTopicConfig2] = expectTopicConfigurations(s3PutParam, {expectedSize: 2});
+            expect(s3PutNotifyTopicConfig1).include({Id: 'topicConfig1'});
+            expect(s3PutNotifyTopicConfig2).include({Id: 'topicConfig2'});
+
+            let [s3PutNotifyQueueConfig1, s3PutNotifyQueueConfig2] = expectQueueConfigurations(s3PutParam, {expectedSize: 2});
+            expect(s3PutNotifyQueueConfig1).include({Id: 'queueConfig1'});
+            expect(s3PutNotifyQueueConfig2).include({Id: 'queueConfig2'});
+
+            let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
+
+            expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id');
+            expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
+            expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
+            expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
+        });
+
+        it('Bucket contains S3 lambda event with same identifier -> rejected', async () => {
+
+            underTest = proxyquire('../index_impl.js', {
+                'cf-fetch-response': {
+                    sendSuccess: successFake,
+                    sendFail: failFake
+                },
+                './s3Api': {
+                    putBucketNotificationConfiguration: s3PutBucketNotificationConfigFake,
+                    getBucketNotificationConfiguration: s3GetBucketNotificationConfigLambdaEventWithSameIdFake
+                }
+            });
+
+            return expect(underTest.handler(cfCreateEvent, cfContext)).be.rejected;
+        });
 
     });
 
@@ -377,118 +377,118 @@ describe('s3-event-notifier', () => {
 
     describe('S3 Lambda Notification Event Filter', () => {
 
-        // it('with prefix filter', async () => {
-        //
-        //     Object.assign(cfCreateEvent.ResourceProperties, {
-        //         S3Prefix: '/w/t/f'
-        //     });
-        //
-        //     await underTest.handler(cfCreateEvent, cfContext);
-        //
-        //     let [event, context, custom] = successFake.firstCall.args;
-        //     expectByPass(event, context);
-        //
-        //     let data = expectCustomData(custom);
-        //     expectCustomDataNotificatinId(data);
-        //
-        //     let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
-        //     expectS3Bucket(s3PutParam);
-        //
-        //     expectTopicConfigurations(s3PutParam);
-        //     expectQueueConfigurations(s3PutParam);
-        //
-        //     let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
-        //
-        //     expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id', 'Filter');
-        //     expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
-        //     expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
-        //     expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
-        //
-        //     let [suffixRule] = expectPutNotificationFilterRules(s3PutNotifyLambdaConfig.Filter);
-        //
-        //     expectFilterRule(suffixRule, {
-        //         name: 'prefix',
-        //         value: '/w/t/f'
-        //     });
-        // });
-        //
-        // it('with suffix filter', async () => {
-        //
-        //     Object.assign(cfCreateEvent.ResourceProperties, {
-        //         S3Suffix: '.png'
-        //     });
-        //
-        //     await underTest.handler(cfCreateEvent, cfContext);
-        //
-        //     let [event, context, custom] = successFake.firstCall.args;
-        //     expectByPass(event, context);
-        //
-        //     let data = expectCustomData(custom);
-        //     expectCustomDataNotificatinId(data);
-        //
-        //     let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
-        //     expectS3Bucket(s3PutParam);
-        //
-        //     expectTopicConfigurations(s3PutParam);
-        //     expectQueueConfigurations(s3PutParam);
-        //
-        //     let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
-        //
-        //     expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id', 'Filter');
-        //     expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
-        //     expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
-        //     expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
-        //
-        //     let [suffixRule] = expectPutNotificationFilterRules(s3PutNotifyLambdaConfig.Filter);
-        //
-        //     expectFilterRule(suffixRule, {
-        //         name: 'suffix',
-        //         value: '.png'
-        //     });
-        // });
-        //
-        // it('with prefix and suffix filter', async () => {
-        //
-        //     Object.assign(cfCreateEvent.ResourceProperties, {
-        //         S3Prefix: 'w/t/f',
-        //         S3Suffix: '.png'
-        //     });
-        //
-        //     await underTest.handler(cfCreateEvent, cfContext);
-        //
-        //     let [event, context, custom] = successFake.firstCall.args;
-        //     expectByPass(event, context);
-        //
-        //     let data = expectCustomData(custom);
-        //     expectCustomDataNotificatinId(data);
-        //
-        //     let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
-        //     expectS3Bucket(s3PutParam);
-        //
-        //     expectTopicConfigurations(s3PutParam);
-        //     expectQueueConfigurations(s3PutParam);
-        //
-        //     let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
-        //
-        //     expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id', 'Filter');
-        //     expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
-        //     expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
-        //     expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
-        //
-        //     let [prefixRule, suffixRule] = expectPutNotificationFilterRules(s3PutNotifyLambdaConfig.Filter, {
-        //         ruleSize: 2
-        //     });
-        //
-        //     expectFilterRule(prefixRule, {
-        //         name: 'prefix',
-        //         value: 'w/t/f'
-        //     });
-        //
-        //     expectFilterRule(suffixRule, {
-        //         name: 'suffix',
-        //         value: '.png'
-        //     });
-        // });
+        it('with prefix filter', async () => {
+
+            Object.assign(cfCreateEvent.ResourceProperties, {
+                S3Prefix: '/w/t/f'
+            });
+
+            await underTest.handler(cfCreateEvent, cfContext);
+
+            let [event, context, custom] = successFake.firstCall.args;
+            expectByPass(event, context);
+
+            let data = expectCustomData(custom);
+            expectCustomDataNotificatinId(data);
+
+            let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
+            expectS3Bucket(s3PutParam);
+
+            expectTopicConfigurations(s3PutParam);
+            expectQueueConfigurations(s3PutParam);
+
+            let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
+
+            expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id', 'Filter');
+            expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
+            expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
+            expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
+
+            let [suffixRule] = expectPutNotificationFilterRules(s3PutNotifyLambdaConfig.Filter);
+
+            expectFilterRule(suffixRule, {
+                name: 'prefix',
+                value: '/w/t/f'
+            });
+        });
+
+        it('with suffix filter', async () => {
+
+            Object.assign(cfCreateEvent.ResourceProperties, {
+                S3Suffix: '.png'
+            });
+
+            await underTest.handler(cfCreateEvent, cfContext);
+
+            let [event, context, custom] = successFake.firstCall.args;
+            expectByPass(event, context);
+
+            let data = expectCustomData(custom);
+            expectCustomDataNotificatinId(data);
+
+            let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
+            expectS3Bucket(s3PutParam);
+
+            expectTopicConfigurations(s3PutParam);
+            expectQueueConfigurations(s3PutParam);
+
+            let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
+
+            expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id', 'Filter');
+            expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
+            expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
+            expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
+
+            let [suffixRule] = expectPutNotificationFilterRules(s3PutNotifyLambdaConfig.Filter);
+
+            expectFilterRule(suffixRule, {
+                name: 'suffix',
+                value: '.png'
+            });
+        });
+
+        it('with prefix and suffix filter', async () => {
+
+            Object.assign(cfCreateEvent.ResourceProperties, {
+                S3Prefix: 'w/t/f',
+                S3Suffix: '.png'
+            });
+
+            await underTest.handler(cfCreateEvent, cfContext);
+
+            let [event, context, custom] = successFake.firstCall.args;
+            expectByPass(event, context);
+
+            let data = expectCustomData(custom);
+            expectCustomDataNotificatinId(data);
+
+            let [s3PutParam] = s3PutBucketNotificationConfigFake.firstCall.args;
+            expectS3Bucket(s3PutParam);
+
+            expectTopicConfigurations(s3PutParam);
+            expectQueueConfigurations(s3PutParam);
+
+            let [s3PutNotifyLambdaConfig] = expectLambdaFunctionConfigurations(s3PutParam);
+
+            expect(s3PutNotifyLambdaConfig).to.have.all.keys('Events', 'LambdaFunctionArn', 'Id', 'Filter');
+            expectPutNotificationEvent(s3PutNotifyLambdaConfig.Events);
+            expectPutNotificationLambdaArn(s3PutNotifyLambdaConfig.LambdaFunctionArn);
+            expectPutNotificationId(s3PutNotifyLambdaConfig.Id);
+
+            let [prefixRule, suffixRule] = expectPutNotificationFilterRules(s3PutNotifyLambdaConfig.Filter, {
+                ruleSize: 2
+            });
+
+            expectFilterRule(prefixRule, {
+                name: 'prefix',
+                value: 'w/t/f'
+            });
+
+            expectFilterRule(suffixRule, {
+                name: 'suffix',
+                value: '.png'
+            });
+        });
     });
 
     function expectSuccessCFResponse() {
