@@ -14,6 +14,32 @@ S3Suffix: suffix event filter (something like .img)
 
 ```
 
+## Example
+
+```yaml
+S3EventNotifierCustomResource: 
+  Type: "Custom::TestLambdaCrossStackRef"
+  Properties: 
+    ServiceToken:
+      !Sub |
+        arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${LambdaFunctionName}
+    S3Event: 's3:ObjectCreated:*'
+    S3Bucket: my-bucket
+    S3Prefix: this/is/an/example/path
+    S3Suffix: "*.png"
+    EventLambdaArn: GetAtt(event_lambda_function,'Arn')
+    StackName: 
+      Ref: "StackName"      
+```
+
+cloud_formation.CustomResource(
+        ServiceToken=ImportValue(s3EventNotifierCustomARN),
+        S3Event='s3:ObjectCreated:*',
+        S3Bucket=ImportValue(s3BaseBucketId),
+        S3Prefix='gcp/not-transcoded',
+        EventLambdaArn=ImportValue(incomingNotTranscodedFileEventHandlerARN)
+    )
+
 ## Limitations
 
 Currently only on S3Event can be set.
