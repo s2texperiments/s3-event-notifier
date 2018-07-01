@@ -32,14 +32,6 @@ S3EventNotifierCustomResource:
       Ref: "StackName"      
 ```
 
-cloud_formation.CustomResource(
-        ServiceToken=ImportValue(s3EventNotifierCustomARN),
-        S3Event='s3:ObjectCreated:*',
-        S3Bucket=ImportValue(s3BaseBucketId),
-        S3Prefix='gcp/not-transcoded',
-        EventLambdaArn=ImportValue(incomingNotTranscodedFileEventHandlerARN)
-    )
-
 ## Limitations
 
 Currently only on S3Event can be set.
