@@ -27,7 +27,7 @@ S3EventNotifierCustomResource:
     S3Bucket: my-bucket
     S3Prefix: this/is/an/example/path
     S3Suffix: "*.png"
-    EventLambdaArn: GetAtt(event_lambda_function,'Arn')
+    EventLambdaArn: GetAtt(EventLambda,'Arn')
     StackName: 
       Ref: "StackName"      
 ```
