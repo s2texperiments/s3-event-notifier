@@ -2,7 +2,7 @@
 Cloudformation Custom Resource for S3 Event Notification with Lambda
 
 ## Input:
-``` yaml
+```yaml
 #required
 S3Bucket: Bucketname which the event should be added to 
 S3Event: The S3 bucket event for which to invoke the Lambda function. For more information, see Supported Event Types in the Amazon Simple Storage Service Developer Guide.
@@ -11,14 +11,19 @@ EventLambdaArn: The Amazon Resource Name (ARN) of the Lambda function that Amazo
 #optional:
 S3Prefix: prefix event filter (something like /myapp/static)
 S3Suffix: suffix event filter (something like .img)
-
 ```
+## Permission: 
+
+S3 must be allowed to call the custom resource lambda function.
+EventLambda must be allowed to access S3 Bucket. Which permission should be used is use case depended.
+For more information see:
+https://docs.aws.amazon.com/lambda/latest/dg/with-s3.html
 
 ## Example
-
+Use custom resource:
 ```yaml
 S3EventNotifierCustomResource: 
-  Type: "Custom::TestLambdaCrossStackRef"
+  Type: "Custom::S3EventNotifier"
   Properties: 
     ServiceToken:
       !Sub |
